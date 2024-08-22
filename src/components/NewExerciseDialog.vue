@@ -5,6 +5,15 @@
                 <q-input filled dense label="Nome" v-model="name" />
             </q-card-section>
 
+            <q-card-section class="q-pt-none q-mt-md">
+                <q-input
+                    filled
+                    dense
+                    label="URL da imagem"
+                    v-model="thumbnail"
+                />
+            </q-card-section>
+
             <q-card-section class="q-pt-none">
                 <div
                     class="row q-mb-md"
@@ -59,18 +68,21 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { useStoreExercise } from 'src/stores/storeExercise'
 import { ref } from 'vue'
 
+const storeExercise = useStoreExercise()
 const model = defineModel({ required: true, default: false })
-const emit = defineEmits(['on-create-exercise'])
 
+const thumbnail = ref('')
 const types = ref([{ value: '' }])
 const name = ref('')
+
 const typeInputLabel = (index) => `Tipo exercício ${index}`
 
 const clearAnnotationInputs = () => {
     name.value = ''
+    thumbnail.value = ''
     types.value = [{ value: '' }]
 }
 
@@ -79,9 +91,10 @@ const onCancellingNewExercise = () => {
 }
 
 const onCreateNewExercise = () => {
-    emit('on-create-exercise', {
+    storeExercise.addExercise({
         name: name.value,
         types: types.value,
+        thumbnail: thumbnail.value,
     })
     clearAnnotationInputs()
 }

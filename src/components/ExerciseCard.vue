@@ -80,8 +80,11 @@
 </template>
 
 <script setup>
+import { useStoreExercise } from 'src/stores/storeExercise'
 import { getCurrentInstance } from 'vue'
 import { computed, ref, defineEmits, defineProps } from 'vue'
+
+const storeExercise = useStoreExercise()
 
 const props = defineProps({
     thumbnail: {
@@ -100,6 +103,10 @@ const props = defineProps({
         type: [Array, null],
         required: false,
     },
+    exerciseId: {
+        type: [String],
+        required: true,
+    },
 })
 
 const lastAnnotation = (title) => {
@@ -112,8 +119,6 @@ const exerciseTypeLabel = computed(() => {
 })
 
 /* Dialog */
-
-const emit = defineEmits(['on-create-annotation'])
 
 const newAnnotationDialog = ref(false)
 const newAnnotationText = ref('')
@@ -129,7 +134,8 @@ const onCancellingNewAnnotation = () => {
 }
 
 const onCreateNewAnnotation = () => {
-    emit('on-create-annotation', {
+    storeExercise.addAnnotation({
+        id: props.exerciseId,
         title: newAnnotationTitle.value,
         text: newAnnotationText.value,
     })
