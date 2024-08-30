@@ -1,5 +1,8 @@
 <template>
     <q-card class="exercise-card" flat bordered>
+        <div class="float-right">
+            <q-icon class="handle" size="md" name="reorder" />
+        </div>
         <q-img :src="props.thumbnail" />
 
         <q-card-section>

@@ -65,9 +65,15 @@ export const useStoreExercise = defineStore('exercises', () => {
         return exercises.value.findIndex((exercise) => exercise.id === id)
     }
 
+    const sortEnd = ({ oldIndex, newIndex }) => {
+        const movedExercise = exercises.value[oldIndex]
+        exercises.value.splice(oldIndex, 1)
+        exercises.value.splice(newIndex, 0, movedExercise)
+    }
+
     /*
         return
     */
 
-    return { exercises, addExercise, updateExercise, addAnnotation }
+    return { exercises, addExercise, updateExercise, addAnnotation, sortEnd }
 })

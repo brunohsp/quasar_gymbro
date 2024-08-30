@@ -1,16 +1,25 @@
 <template>
     <q-page>
-        <div class="flex row wrap q-gutter-md q-pa-md">
-            <exercise-card
-                v-for="exercise in exercises"
-                :key="exercise.id"
-                :exercise-id="exercise.id"
-                :exercise-name="exercise.name"
-                :thumbnail="exercise.thumbnail"
-                :exercise-types="exercise.types"
-                :exercise-annotations="exercise.annotations"
-            />
-        </div>
+        <q-list>
+            <Sortable
+                class="flex row wrap q-gutter-md q-pa-md"
+                @end="storeExercises.sortEnd"
+                :options="{ handle: '.handle' }"
+                :list="storeExercises.exercises"
+                item-key="id"
+                tag="div"
+            >
+                <template #item="{ element }">
+                    <exercise-card
+                        :exercise-id="element.id"
+                        :exercise-name="element.name"
+                        :thumbnail="element.thumbnail"
+                        :exercise-types="element.types"
+                        :exercise-annotations="element.annotations"
+                    />
+                </template>
+            </Sortable>
+        </q-list>
 
         <new-exercise-dialog v-model="newExercise" />
 
@@ -27,6 +36,7 @@
 <script setup>
 import ExerciseCard from 'src/components/ExerciseCard.vue'
 import NewExerciseDialog from 'src/components/NewExerciseDialog.vue'
+import { Sortable } from 'sortablejs-vue3'
 import { ref } from 'vue'
 import { useStoreExercise } from 'src/stores/storeExercise'
 
