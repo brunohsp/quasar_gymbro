@@ -15,6 +15,27 @@
             <div class="row no-wrap items-center">
                 <div class="col text-h5 ellipsis">
                     {{ props.exerciseName }}
+
+                    <q-popup-edit
+                        @save="onTitleUpdate"
+                        :model-value="props.exerciseName"
+                        v-slot="scope"
+                        :cover="false"
+                        :offset="[16, 12]"
+                        anchor="top left"
+                        label-set="Ok"
+                        label-cancel="Cancelar"
+                        auto-save
+                        buttons
+                    >
+                        <q-input
+                            v-model="scope.value"
+                            @keyup.enter="scope.set"
+                            input-class="text-weight-bold"
+                            autofocus
+                            dense
+                        />
+                    </q-popup-edit>
                 </div>
             </div>
 
@@ -140,6 +161,12 @@ const onCreateNewAnnotation = () => {
         text: newAnnotationText.value,
     })
     clearAnnotationInputs()
+}
+
+/* Updates */
+
+const onTitleUpdate = (value) => {
+    storeExercise.updateExercise(props.exerciseId, { name: value })
 }
 </script>
 
