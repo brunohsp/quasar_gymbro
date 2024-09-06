@@ -10,13 +10,19 @@
                 tag="div"
             >
                 <template #item="{ element }">
-                    <exercise-card
-                        :exercise-id="element.id"
-                        :exercise-name="element.name"
-                        :thumbnail="element.thumbnail"
-                        :exercise-types="element.types"
-                        :exercise-annotations="element.annotations"
-                    />
+                    <transition
+                        appear
+                        enter-active-class="animated backInRight"
+                        leave-active-class="animated backInRight"
+                    >
+                        <exercise-card
+                            :exercise-id="element.id"
+                            :exercise-name="element.name"
+                            :thumbnail="element.thumbnail"
+                            :exercise-types="element.types"
+                            :exercise-annotations="element.annotations"
+                        />
+                    </transition>
                 </template>
             </Sortable>
         </q-list>

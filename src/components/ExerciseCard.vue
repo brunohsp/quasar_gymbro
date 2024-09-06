@@ -1,7 +1,13 @@
 <template>
     <q-card class="exercise-card" flat bordered>
-        <div class="float-right">
+        <div class="q-ma-sm full-width row inline justify-between">
             <q-icon class="handle" size="md" name="reorder" />
+            <q-icon
+                v-if="storeSettings.settings.allowToDelete"
+                size="md"
+                name="delete"
+                @click="onDeletingCard"
+            />
         </div>
         <q-img :src="props.thumbnail" />
 
@@ -37,12 +43,16 @@
                             input-class="text-weight-bold"
                             autofocus
                             dense
+                            v-select-all
                         />
                     </q-popup-edit>
                 </div>
             </div>
 
-            <div class="row no-wrap q-mr-md">
+            <div
+                class="row no-wrap q-mr-md"
+                v-if="storeSettings.settings.ShowExerciseTypes"
+            >
                 <div class="col text-subtitle1 ellipsis">
                     {{ exerciseTypeLabel }}
                 </div>
@@ -105,10 +115,12 @@
 
 <script setup>
 import { useStoreExercise } from 'src/stores/storeExercise'
-import { getCurrentInstance } from 'vue'
+import { useStoreSettings } from 'src/stores/storeSettings'
 import { computed, ref, defineEmits, defineProps } from 'vue'
+import vSelectAll from 'src/directives/directiveSelect.js'
 
 const storeExercise = useStoreExercise()
+const storeSettings = useStoreSettings()
 
 const props = defineProps({
     thumbnail: {
@@ -170,6 +182,12 @@ const onCreateNewAnnotation = () => {
 
 const onTitleUpdate = (value) => {
     storeExercise.updateExercise(props.exerciseId, { name: value })
+}
+
+/* Delete */
+
+const onDeletingCard = () => {
+    storeExercise.deleteExercise(props.exerciseId)
 }
 </script>
 

@@ -51,6 +51,11 @@ export const useStoreExercise = defineStore('exercises', () => {
         Object.assign(exercises.value[index], updates)
     }
 
+    const deleteExercise = (id) => {
+        const index = getExerciseIndexById(id)
+        exercises.value.splice(index, 1)
+    }
+
     const addAnnotation = ({ id, title, text }) => {
         exercises.value
             .find((exercise) => exercise.id === id)
@@ -75,5 +80,12 @@ export const useStoreExercise = defineStore('exercises', () => {
         return
     */
 
-    return { exercises, addExercise, updateExercise, addAnnotation, sortEnd }
+    return {
+        exercises,
+        addExercise,
+        updateExercise,
+        addAnnotation,
+        deleteExercise,
+        sortEnd,
+    }
 })
