@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
-import { uid } from 'quasar'
-import { ref } from 'vue'
+import { uid, LocalStorage } from 'quasar'
+import { ref, watch } from 'vue'
 
 export const useStoreExercise = defineStore('exercises', () => {
     /*
@@ -77,6 +77,23 @@ export const useStoreExercise = defineStore('exercises', () => {
     }
 
     /*
+        Local Storage
+    */
+
+    watch(exercises.value, () => {
+        saveExercises()
+    })
+
+    const saveExercises = () => {
+        LocalStorage.set('exercises', exercises.value)
+    }
+
+    const loadExercises = () => {
+        const savedExercises = LocalStorage.getItem('exercises')
+        if (savedExercises) Object.assign(exercises.value, savedExercises)
+    }
+
+    /*
         return
     */
 
@@ -87,5 +104,6 @@ export const useStoreExercise = defineStore('exercises', () => {
         addAnnotation,
         deleteExercise,
         sortEnd,
+        loadExercises,
     }
 })

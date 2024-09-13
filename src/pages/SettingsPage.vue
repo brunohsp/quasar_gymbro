@@ -2,8 +2,8 @@
     <q-page class="vertical-top float-left q-ma-md">
         <q-toggle
             size="lg"
-            v-model="darkMode"
-            :icon="toggleIcon"
+            v-model="storeSettings.settings.darkMode"
+            :icon="storeSettings.darkToggleIcon"
             label="Modo Escuro"
         />
         <div class="q-pa-md">
@@ -37,21 +37,7 @@
 </template>
 
 <script setup>
-import { useQuasar } from 'quasar'
-import { ref, computed, watch } from 'vue'
 import { useStoreSettings } from 'src/stores/storeSettings'
 
-const $q = useQuasar()
 const storeSettings = useStoreSettings()
-
-/* Darkmode option */
-const darkMode = ref($q.dark.mode)
-
-const toggleIcon = computed(() => {
-    return darkMode.value ? 'dark_mode' : 'light_mode'
-})
-
-watch(darkMode, () => {
-    $q.dark.set(darkMode.value)
-})
 </script>

@@ -23,3 +23,7 @@ $positive: #4df574;
 $negative: #ff5449;
 $info: #4ecbe4;
 $warning: #f2c037;
+
+$primary-dark: darken($primary, 12);
+$secondary-dark: darken($secondary, 12);
+$accent-dark: darken($accent, 12);
